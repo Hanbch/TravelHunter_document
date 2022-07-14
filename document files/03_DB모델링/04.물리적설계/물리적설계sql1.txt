@@ -1,0 +1,154 @@
+CREATE TABLE `member` (
+	`mid`	VARCHAR2(10)	NOT NULL,
+	`mpw`	NUMBER(10)	NULL,
+	`mname`	VARCHAR2(10)	NULL,
+	`memail`	VARCHAR2(20)	NULL,
+	`mphone`	NUMBER(11)	NULL,
+	`mbirth`	NUMBER(6)	NULL,
+	`mtype`	NUMBER(1)	NULL
+);
+
+CREATE TABLE `place` (
+	`pnum`	NUMBER(5)	NOT NULL,
+	`mid`	VARCHAR2(10)	NOT NULL,
+	`pname`	VARCHAR2(10)	NULL,
+	`location`	VARCHAR2(100)	NULL,
+	`pphone`	NUMBER(11)	NULL,
+	`grade`	NUMBER(2)	NULL,
+	`like`	NUMBER(5)	NULL,
+	`ptype`	NUMBER(1)	NULL
+);
+
+CREATE TABLE `room` (
+	`rnum`	NUMBER(3)	NOT NULL,
+	`pnum`	NUMBER(5)	NOT NULL,
+	`price`	NUMBER(8)	NULL,
+	`capacity`	NUMBER(2)	NULL,
+	`rinfo`	TEXT(100)	NULL,
+	`rimg`	VARCHAR(100)	NULL
+);
+
+CREATE TABLE `review` (
+	`renum`	NUMBER(10)	NOT NULL,
+	`pnum`	NUMBER(5)	NOT NULL,
+	`mid`	VARCHAR2(10)	NOT NULL,
+	`grade`	NUMBER(2)	NULL,
+	`retitle`	VARCHAR2(10)	NULL,
+	`recontent`	TEXT(100)	NULL,
+	`rehit`	NUMBER(3)	NULL,
+	`redate`	DATE	NULL
+);
+
+CREATE TABLE `reply` (
+	`repnum`	NUMBER(10)	NOT NULL,
+	`renum`	NUMBER(10)	NOT NULL,
+	`mid`	VARCHAR2(10)	NOT NULL,
+	`reply`	TEXT(100)	NULL,
+	`repdate`	DATE	NULL
+);
+
+CREATE TABLE `reservation` (
+	`rsvnum`	NUMBER(10)	NOT NULL,
+	`mid`	VARCHAR2(10)	NOT NULL,
+	`rnum`	NUMBER(3)	NOT NULL,
+	`pnum`	NUMBER(5)	NOT NULL,
+	`startdate`	DATE	NULL,
+	`enddate`	DATE	NULL
+);
+
+ALTER TABLE `member` ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
+	`mid`
+);
+
+ALTER TABLE `place` ADD CONSTRAINT `PK_PLACE` PRIMARY KEY (
+	`pnum`,
+	`mid`
+);
+
+ALTER TABLE `room` ADD CONSTRAINT `PK_ROOM` PRIMARY KEY (
+	`rnum`,
+	`pnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `PK_REVIEW` PRIMARY KEY (
+	`renum`,
+	`pnum`,
+	`mid`
+);
+
+ALTER TABLE `reply` ADD CONSTRAINT `PK_REPLY` PRIMARY KEY (
+	`repnum`,
+	`renum`,
+	`mid`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (
+	`rsvnum`,
+	`mid`,
+	`rnum`,
+	`pnum`
+);
+
+ALTER TABLE `place` ADD CONSTRAINT `FK_member_TO_place_1` FOREIGN KEY (
+	`mid`
+)
+REFERENCES `member` (
+	`mid`
+);
+
+ALTER TABLE `room` ADD CONSTRAINT `FK_place_TO_room_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `FK_place_TO_review_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `FK_place_TO_review_2` FOREIGN KEY (
+	`mid`
+)
+REFERENCES `place` (
+	`mid`
+);
+
+ALTER TABLE `reply` ADD CONSTRAINT `FK_review_TO_reply_1` FOREIGN KEY (
+	`renum`
+)
+REFERENCES `review` (
+	`renum`
+);
+
+ALTER TABLE `reply` ADD CONSTRAINT `FK_review_TO_reply_2` FOREIGN KEY (
+	`mid`
+)
+REFERENCES `review` (
+	`mid`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_member_TO_reservation_1` FOREIGN KEY (
+	`mid`
+)
+REFERENCES `member` (
+	`mid`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_room_TO_reservation_1` FOREIGN KEY (
+	`rnum`
+)
+REFERENCES `room` (
+	`rnum`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_room_TO_reservation_2` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `room` (
+	`pnum`
+);
+
