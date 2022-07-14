@@ -1,0 +1,66 @@
+CREATE TABLE `pheed` (
+	`pnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`ptitle`	VARCHAR2	NULL,
+	`pcontent`	TEXT	NULL,
+	`pdate`	DATE	NULL,
+	`pview`	INT	NULL,
+	`plike`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `talk` (
+	`tnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`ttitle`	VARCHAR2	NULL,
+	`tcontent`	TEXT	NULL,
+	`tdate`	DATE	NULL,
+	`tview`	INT	NULL,
+	`tlike`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `review` (
+	`rnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`rtitle`	VARCHAR2	NULL,
+	`rcontent`	TEXT	NULL,
+	`rdate`	DATE	NULL,
+	`rview`	INT	NULL,
+	`grade`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `place` (
+	`pnum`	NUMBER	NOT NULL,
+	`Field`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `comment` (
+	`cnum`	NUMBER	NOT NULL,
+	`rnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`tnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`ccontent`	TEXT	NULL,
+	`cdate`	DATE	NULL
+);
+
+CREATE TABLE `QnA` (
+	`qnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`qtitle`	VARCHAR2	NULL,
+	`qcontent`	TEXT	NULL,
+	`qdate`	DATE	NULL,
+	`Field4`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `history` (
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`Search`	DATE	NULL
+);
+
+CREATE TABLE `like` (
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`Field`	VARCHAR(255)	NULL
+);
