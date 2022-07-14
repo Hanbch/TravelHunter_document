@@ -1,0 +1,7 @@
+소스코드 테스트
+
+1. datasource
+2. vo테스트 (junit)
+3. mapper
+4. service
+5. controller (통합테스트)
