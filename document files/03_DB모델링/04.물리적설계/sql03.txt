@@ -1,0 +1,293 @@
+CREATE TABLE `pheed` (
+	`phnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`phtitle`	VARCHAR2(50)	NULL,
+	`phcontent`	TEXT	NULL,
+	`phdate`	DATE	NULL,
+	`phhit`	NUMBER	NULL,
+	`phlike`	NUMBER(1)	NULL
+);
+
+CREATE TABLE `talk` (
+	`tnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`ttitle`	VARCHAR2(50)	NULL,
+	`tcontent`	TEXT	NULL,
+	`tdate`	DATE	NULL,
+	`thit`	NUMBER	NULL,
+	`tlike`	NUMBER(1)	NULL
+);
+
+CREATE TABLE `review` (
+	`renum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`retitle`	VARCHAR2(50)	NULL,
+	`recontent`	TEXT	NULL,
+	`redate`	DATE	NULL,
+	`rehit`	NUMBER	NULL,
+	`regrade`	NUMBER(5)	NULL
+);
+
+CREATE TABLE `place` (
+	`pnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`pname`	VARCHAR2	NULL,
+	`location`	VARCHAR2	NULL,
+	`pphone`	NUMBER(11)	NULL,
+	`pgrade`	NUMBER(5)	NULL
+);
+
+CREATE TABLE `comment` (
+	`cnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`tnum`	NUMBER	NOT NULL,
+	`renum`	NUMBER	NOT NULL,
+	`ccontent`	TEXT	NULL,
+	`cdate`	DATE	NULL
+);
+
+CREATE TABLE `QnA` (
+	`qnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`qtitle`	VARCHAR2(50)	NULL,
+	`qcontent`	TEXT	NULL,
+	`qdate`	DATE	NULL,
+	`gnum`	NUMBER	NULL
+);
+
+CREATE TABLE `history` (
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`Search`	DATE	NULL
+);
+
+CREATE TABLE `like` (
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`like`	NUMBER(1)	NULL
+);
+
+CREATE TABLE `회원` (
+	`mnum`	NUMBER	NOT NULL,
+	`mid`	VARCHAR2(20)	NULL,
+	`mpw`	VARCHAR2(20)	NULL,
+	`mname`	VARCHAR2(10)	NULL,
+	`memail`	VARCHAR2(20)	NULL,
+	`mphone`	NUMBER(11)	NULL,
+	`mtype`	NUMBER(2)	NULL,
+	`paymentinfo`	NUMBER	NULL
+);
+
+CREATE TABLE `reservation` (
+	`rsvnum`	NUMBER	NOT NULL,
+	`mnum`	NUMBER	NOT NULL,
+	`pnum`	NUMBER	NOT NULL,
+	`startdate`	DATE	NULL,
+	`enddate`	DATE	NULL,
+	`rnum`	NUMBER	NULL
+);
+
+CREATE TABLE `room` (
+	`pnum`	NUMBER	NOT NULL,
+	`rnum`	NUMBER	NULL,
+	`price`	NUMBER	NULL,
+	`capacity`	NUMBER	NULL,
+	`rinfo`	TEXT	NULL,
+	`rimg`	VARCHAR	NULL
+);
+
+CREATE TABLE `authority` (
+	`anum`	NUMBER(2)	NOT NULL,
+	`mnum`	NUMBER	NOT NULL
+);
+
+ALTER TABLE `pheed` ADD CONSTRAINT `PK_PHEED` PRIMARY KEY (
+	`phnum`,
+	`mnum`
+);
+
+ALTER TABLE `talk` ADD CONSTRAINT `PK_TALK` PRIMARY KEY (
+	`tnum`,
+	`mnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `PK_REVIEW` PRIMARY KEY (
+	`renum`,
+	`mnum`,
+	`pnum`
+);
+
+ALTER TABLE `place` ADD CONSTRAINT `PK_PLACE` PRIMARY KEY (
+	`pnum`,
+	`mnum`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `PK_COMMENT` PRIMARY KEY (
+	`cnum`,
+	`mnum`,
+	`pnum`,
+	`tnum`,
+	`renum`
+);
+
+ALTER TABLE `QnA` ADD CONSTRAINT `PK_QNA` PRIMARY KEY (
+	`qnum`,
+	`mnum`
+);
+
+ALTER TABLE `history` ADD CONSTRAINT `PK_HISTORY` PRIMARY KEY (
+	`mnum`,
+	`pnum`
+);
+
+ALTER TABLE `like` ADD CONSTRAINT `PK_LIKE` PRIMARY KEY (
+	`mnum`,
+	`pnum`
+);
+
+ALTER TABLE `회원` ADD CONSTRAINT `PK_회원` PRIMARY KEY (
+	`mnum`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (
+	`rsvnum`,
+	`mnum`,
+	`pnum`
+);
+
+ALTER TABLE `room` ADD CONSTRAINT `PK_ROOM` PRIMARY KEY (
+	`pnum`
+);
+
+ALTER TABLE `authority` ADD CONSTRAINT `PK_AUTHORITY` PRIMARY KEY (
+	`anum`,
+	`mnum`
+);
+
+ALTER TABLE `pheed` ADD CONSTRAINT `FK_회원_TO_pheed_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `talk` ADD CONSTRAINT `FK_회원_TO_talk_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `FK_회원_TO_review_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `review` ADD CONSTRAINT `FK_place_TO_review_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `place` ADD CONSTRAINT `FK_회원_TO_place_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_회원_TO_comment_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_pheed_TO_comment_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `pheed` (
+	`phnum`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_talk_TO_comment_1` FOREIGN KEY (
+	`tnum`
+)
+REFERENCES `talk` (
+	`tnum`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_review_TO_comment_1` FOREIGN KEY (
+	`renum`
+)
+REFERENCES `review` (
+	`renum`
+);
+
+ALTER TABLE `QnA` ADD CONSTRAINT `FK_회원_TO_QnA_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `history` ADD CONSTRAINT `FK_회원_TO_history_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `history` ADD CONSTRAINT `FK_place_TO_history_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `like` ADD CONSTRAINT `FK_회원_TO_like_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `like` ADD CONSTRAINT `FK_place_TO_like_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_회원_TO_reservation_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `FK_room_TO_reservation_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `room` (
+	`pnum`
+);
+
+ALTER TABLE `room` ADD CONSTRAINT `FK_place_TO_room_1` FOREIGN KEY (
+	`pnum`
+)
+REFERENCES `place` (
+	`pnum`
+);
+
+ALTER TABLE `authority` ADD CONSTRAINT `FK_회원_TO_authority_1` FOREIGN KEY (
+	`mnum`
+)
+REFERENCES `회원` (
+	`mnum`
+);
