@@ -1,0 +1,222 @@
+테이블생성/ FK설정----------------------------------------------
+CREATE TABLE member (
+	id	VARCHAR2(10)		PRIMARY KEY,
+	mpw	VARCHAR2(20)		NOT NULL,
+	mname	VARCHAR2(10)		NOT NULL,
+	nick_name	VARCHAR2(10)		NOT NULL,
+	memail	VARCHAR2(20)		NOT NULL,
+	mphone	NUMBER(11)		NOT NULL,
+	mbirth	NUMBER(6)		NOT NULL,
+	payment	NUMBER(1)		NOT NULL
+);
+
+CREATE TABLE place (
+	num	NUMBER(5)		PRIMARY KEY,
+	member_id	VARCHAR2(10) NOT NULL,
+    CONSTRAINT member_id foreign key(member_id) references member (id), 
+	pname	VARCHAR2(10)		NOT NULL,
+	location	VARCHAR2(100)		NOT NULL,
+	pphone	NUMBER(11)		NOT NULL
+);
+
+CREATE TABLE room (
+	num	NUMBER(3)		PRIMARY KEY,
+	place_num	NUMBER(5)		NOT NULL,
+    CONSTRAINT place_num foreign key(place_num) references place (num),
+	price	NUMBER(8)		NOT NULL,
+	capacity	NUMBER(2)		NOT NULL,
+	rinfo	VARCHAR2(100)		NOT NULL
+);
+
+CREATE TABLE board_type (
+	num	NUMBER(1)		PRIMARY KEY,
+	btname	VARCHAR2(10)		NOT NULL
+);
+
+CREATE TABLE board (
+	id	NUMBER(5)		PRIMARY KEY,
+	member_id	VARCHAR2(10)		NOT NULL,
+    CONSTRAINT member_id2 foreign key(member_id) references member (id),
+	place_num	NUMBER(5)		NOT NULL,
+    CONSTRAINT place_num2 foreign key(place_num) references place (num),
+	board_type_num	NUMBER(1)		NOT NULL,
+    CONSTRAINT board_type_num foreign key(board_type_num) references board_type (num),
+	btitle	VARCHAR2(20)		NOT NULL,
+	bcontent	VARCHAR2(100)		NOT NULL,
+	bdate	DATE		NOT NULL,
+	bgrade	NUMBER(2)		NOT NULL,
+	bview	NUMBER(5)		NOT NULL
+);
+
+CREATE TABLE reservation (
+	num	NUMBER(10)		PRIMARY KEY,
+	member_id	VARCHAR2(10)		NOT NULL,
+    CONSTRAINT member_id3 foreign key(member_id) references member (id),
+	room_num	NUMBER(3)		NOT NULL,
+    CONSTRAINT room_num2 foreign key(room_num) references room (num),
+	place_num	NUMBER(5)		NOT NULL,
+    CONSTRAINT place_num3 foreign key(place_num) references place (num),
+	startdate	DATE		NOT NULL,
+	enddate	DATE		NOT NULL
+);
+
+CREATE TABLE reply (
+	num	NUMBER(10)		PRIMARY KEY,
+	board_id	NUMBER(5)		NOT NULL,
+    CONSTRAINT board_id foreign key(board_id) references board (id),
+	member_id	VARCHAR2(10)		NOT NULL,
+    CONSTRAINT member_id4 foreign key(member_id) references member(id),
+	reply	VARCHAR2(100)		NOT NULL,
+	repdate	DATE		NOT NULL
+);
+
+CREATE TABLE authgroup (
+	num	NUMBER(1)		PRIMARY KEY,
+	aname	VARCHAR2(10)		NOT NULL
+);
+
+CREATE TABLE authority (
+	member_id	VARCHAR2(10)		NOT NULL,
+    CONSTRAINT member_id5 foreign key(member_id) references member(id),
+	auth_num	NUMBER(1)		NOT NULL,
+    CONSTRAINT auth_num foreign key(auth_num) references authgroup(num)
+);
+
+CREATE TABLE place_type_group (
+	num	NUMBER(1)		PRIMARY KEY,
+	ptname	VARCHAR2(10)		NOT NULL
+);
+
+CREATE TABLE place_type (
+	place_num	NUMBER(5)		NOT NULL,
+    CONSTRAINT place_num4 foreign key(place_num) references place(num),
+	place_type_group_num	NUMBER(1)		NOT NULL,
+    CONSTRAINT place_type_group_num foreign key(place_type_group_num) references place_type_group(num)
+);
+
+CREATE TABLE search (
+	member_id	VARCHAR(10)		NOT NULL,
+    CONSTRAINT member_id6 foreign key(member_id) references member(id),
+	place_num	NUMBER(5)		NOT NULL,
+    CONSTRAINT place_num5 foreign key(place_num) references place(num),
+	sdate	DATE		NULL
+);
+
+CREATE TABLE likes (
+    num NUMBER(5) PRIMARY KEY,
+	board_id	NUMBER(5)		NOT NULL,
+    CONSTRAINT board_id2 foreign key(board_id) references board(id),
+	member_id	VARCHAR2(10)		NOT NULL,
+    CONSTRAINT member_id7 foreign key(member_id) references member(id),
+	ldate	DATE		NOT NULL
+);
+
+CREATE TABLE image_type (
+	num	NUMBER(1)		PRIMARY KEY,
+	itname	VARCHAR2(10)		NOT NULL
+);
+
+CREATE TABLE image (
+	num	NUMBER(5)		PRIMARY KEY,
+	board_id	NUMBER(5)		NULL,
+    CONSTRAINT board_id3 foreign key(board_id) references board(id),
+	room_num	NUMBER(3)		NULL,
+    CONSTRAINT room_num foreign key(room_num) references room(num),
+	image_type_num	NUMBER(1)		NOT NULL,
+    CONSTRAINT image_type_num foreign key(image_type_num) references image_type(num),
+	iname	VARCHAR2(100)		NOT NULL,
+	ipath	VARCHAR2(100)		NOT NULL
+);
+
+CREATE TABLE stats (
+	day_sell	NUMBER(10)		NOT NULL,
+	week_sell	NUMBER(10)		NOT NULL,
+	month_sell	NUMBER(11)		NOT NULL
+);
+
+
+insert-------------------------------------------------------------
+
+insert into member(id,mpw,mname,nick_name,memail,mphone,mbirth,payment)
+    values(member_seq.nextval,'a','a','a','a',0,0,0);
+
+insert into place(num,member_id,pname,location,pphone)
+    values(place_seq.nextval,'a','a','a',0);
+
+insert into room(num,place_num,price,capacity,rinfo)
+    values(room_seq.nextval,0,0,0,'a');
+
+insert into reply(num,board_id,member_id,reply,repdate)
+    values(reply_seq.nextval,0,'a','a',sysdate);
+
+insert into reservation(num,member_id,room_num,place_num,startdate,enddate)
+    values(reservation_seq.nextval,'a',0,0,sysdate,sysdate);
+
+insert into board_type(num,btname)
+    values(board_type_seq.nextval,'a');
+
+insert into board(id,member_id,place_num,board_type_num,btitle,bcontent,bdate,bgrade,bview)
+    values(board_seq.nextval,'a',0,0,'a','a',sysdate,0,0);
+
+insert into authority(member_id,auth_num)
+    values('a',0);
+
+insert into place_type_group(num,ptname)
+    values(place_type_group_seq.nextval,'a');
+
+insert into place_type(place_num, place_type_group_num)
+    values(0,0);
+
+insert into likes(num,board_id,member_id,ldate)
+    values(likes_seq.nextval,0,'a',sysdate);
+
+insert into search(member_id,place_num,sdate)
+    values('a',0,sysdate);
+
+insert into image_type(num,itname)
+    values(image_type_seq.nextval,'a');
+
+insert into image(num,board_id,room_num,image_type_num,iname,ipath)
+    values(image_seq.nextval,0,0,0,'a','a');
+
+insert into stats(day_sell,week_sell,month_sell)
+    values(0,0,0);
+
+insert into authgroup(num,aname)
+    values(authgroup_seq.nextval,'a');
+
+
+seq생성--------------------------------------------------
+create sequence member_seq;
+create sequence place_seq;
+create sequence room_seq;
+create sequence board_type_seq;
+create sequence board_seq;
+create sequence reservation_seq;
+create sequence reply_seq;
+create sequence authgroup_seq;
+create sequence place_type_group_seq;
+create sequence likes_seq;
+create sequence image_type_seq;
+create sequence image_seq;
+
+
+drop---------------------------------------------------------
+
+drop table member;
+drop table reply;
+drop table reservation;
+drop table authority;
+drop table place_type;
+drop table board_type;
+drop table likes;
+drop table search;
+drop table image;
+drop table image_type;
+drop table stats;
+drop table authgroup;
+drop table place_type_group;
+drop table board;
+drop table room;
+drop table place;
+
