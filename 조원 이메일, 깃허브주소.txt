@@ -6,22 +6,9 @@ https://github.com/Hanbch
 wogk9843@naver.com 
 https://github.com/wogk9854
 
-최판규
-vksrbakstp123@gmail.com
-https://github.com/pangyuchoi/java-pangyu
-
 조권희
 s_dain@naver.com
 https://github.com/sdfbscxz
-
-홍성륜
-binryun3@naver.com
-https://github.com/hongsungryun
-
-황산성
-hss2727@naver.com
-https://github.com/hwangsansung 
-
 
 프로젝트개발 깃허브주소
 https://github.com/Hanbch/spring_boots_TravelHunter.git
